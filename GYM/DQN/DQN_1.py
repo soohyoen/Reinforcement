@@ -19,38 +19,27 @@ REPLAY_MEMORY = 50000
 # 2nd : Network setting
 # dqn.py
     
-
-# 3th : Replay train(target DQN added)
-
-def replay_train(mainDQN, targetDQN, train_batch):
-    x_stack = np.empty(0).reshape(0, input_size)
-    y_stack = np.empty(0).reshape(0, output_size)
-
+# 3nd: Train from Replay Buffer
+def simple_replay_train(DQN, train_batch):
+    x_stack = np.empty(0).reshape(0, DQN.input_size)
+    y_stack = np.empty(0).reshape(0, DQN.output_size)
+    
     for state, action, reward, next_state, done in train_batch:
-        Q = mainDQN.predict(state)
-
+        Q = DQN.predict(state)
+        
         if done:
-           Q[0, action] = reward
+            Q[0,action] = reward
         else:
-           Q[0, action] = reward + dis * np.max(targetDQN.predict(next_state))
-
+            Q[0,action] = reward + dis * np.max(DQN.predict(next_state))
+            
         y_stack = np.vstack([y_stack, Q])
         x_stack = np.vstack([x_stack, state])
-    return mainDQN.update(x_stack, y_stack)
-
-def get_copy_var_ops(*, dest_scope_name="target", src_scope_name="main"):
-    op_holder = []
-
-    src_vars = tf.get_collection(
-          tf.GraphKeys.TRAINABLE_VARIABLES, scope=src_scope_name)
-    dest_vars = tf.get_collection(
-          tf.GraphKeys.TRAINABLE_VARIABLES, scope=dest_scope_name)
-
-    for src_var, dest_var in zip(src_vars,dest_vars):
-        op_holder.append(dest_var.assign(src_var.value()))
-    return op_holder
+        
+        
+    return DQN.update(x_stack, y_stack)
 
 
+# 4th : bot play
 def bot_play(mainDQN):
     s = env.reset()
     reward_sum = 0
@@ -62,23 +51,20 @@ def bot_play(mainDQN):
         if done:
             print("Total score: {}".format(reward_sum))
             break
-
+# 5th : main
 def main():
     max_episodes = 5000
     
     replay_buffer =deque()
     with tf.Session() as sess:
-        mainDQN = dqn.DQN(sess, input_size, output_size, name="main")
-        targetDQN = dqn.DQN(sess, input_size, output_size, name = "target")
+        mainDQN = dqn.DQN(sess, input_size, output_size)
         tf.global_variables_initializer().run()
-
-        copy_ops = get_copy_var_ops(dest_scope_name="target", src_scope_name="main")
-        sess.run(copy_ops)
         
         for episode in range(max_episodes):
             e = 1. / ((episode/10) + 1)
             done = False
             step_count =0
+            
             state = env.reset()
             
             while not done:
@@ -99,7 +85,6 @@ def main():
                 step_count += 1
                 if step_count > 10000:
                     break
-
             print("Episode: {} steps: {}".format(episode, step_count))
             if step_count > 10000:
                 pass
@@ -108,11 +93,10 @@ def main():
                 for _ in range(50):
                     
                     minibatch = random.sample(replay_buffer, 10)
-                    loss, _ = replay_train(mainDQN, targetDQN ,minibatch)
+                    loss, _ = simple_replay_train(mainDQN, minibatch)
                 print("Loss :", loss)
-                sess.run(copy_ops)
+                
 
         bot_play(mainDQN)
-
 if __name__ == "__main__":
     main()
