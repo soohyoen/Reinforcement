@@ -12,7 +12,7 @@ class PolicyIteration:
         self.policy_table = [[[0.25, 0.25, 0.25, 0.25]] * env.width
                                     for _ in range(env.height)]
         # setting terminal state
-        self.policy_table[2][2] = []
+        self.policy_table[5][5] = [] #
         self.discount_factor = 0.9
 
     def policy_evaluation(self):
@@ -23,7 +23,7 @@ class PolicyIteration:
         for state in self.env.get_all_states():
             value = 0.0
             # keep the value function of terminal states as 0
-            if state == [2, 2]:
+            if state == [5, 5]: #
                 next_value_table[state[0]][state[1]] = value
                 continue
 
@@ -41,7 +41,7 @@ class PolicyIteration:
     def policy_improvement(self):
         next_policy = self.policy_table
         for state in self.env.get_all_states():
-            if state == [2, 2]:
+            if state == [5, 5]: #
                 continue
             value = -99999
             max_index = []
@@ -88,7 +88,7 @@ class PolicyIteration:
 
     # get policy of specific state
     def get_policy(self, state):
-        if state == [2, 2]:
+        if state == [5, 5]:
             return 0.0
         return self.policy_table[state[0]][state[1]]
 

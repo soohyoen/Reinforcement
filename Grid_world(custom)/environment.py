@@ -32,6 +32,8 @@ class GraphicDisplay(tk.Tk):
         self.text_reward(1, 2, "R : -1.0")
         self.text_reward(2, 1, "R : -1.0")
         self.text_reward(1, 7, "R : -1.0")
+        self.text_reward(3, 6, "R : -1.0") # 
+        self.text_reward(4, 3, "R : -1.0") #
 
     def _build_canvas(self):
         canvas = tk.Canvas(self, bg='white',
@@ -71,20 +73,22 @@ class GraphicDisplay(tk.Tk):
         canvas.create_image(150, 250, image=self.shapes[1])
         canvas.create_image(550, 550, image=self.shapes[2])
         canvas.create_image(750, 150, image=self.shapes[1])
-
+        canvas.create_image(650, 350, image=self.shapes[1]) #
+        canvas.create_image(350, 450, image=self.shapes[1]) #
+ #
         # pack all
         canvas.pack()
 
         return canvas
 
     def load_images(self):
-        up = PhotoImage(Image.open("../img/up.png").resize((13, 13)))
-        right = PhotoImage(Image.open("../img/right.png").resize((13, 13)))
-        left = PhotoImage(Image.open("../img/left.png").resize((13, 13)))
-        down = PhotoImage(Image.open("../img/down.png").resize((13, 13)))
-        rectangle = PhotoImage(Image.open("../img/rectangle.png").resize((65, 65)))
-        triangle = PhotoImage(Image.open("../img/triangle.png").resize((65, 65)))
-        circle = PhotoImage(Image.open("../img/circle.png").resize((65, 65)))
+        up = PhotoImage(Image.open("./img/up.png").resize((13, 13)))
+        right = PhotoImage(Image.open("./img/right.png").resize((13, 13)))
+        left = PhotoImage(Image.open("./img/left.png").resize((13, 13)))
+        down = PhotoImage(Image.open("./img/down.png").resize((13, 13)))
+        rectangle = PhotoImage(Image.open("./img/rectangle.png").resize((65, 65)))
+        triangle = PhotoImage(Image.open("./img/triangle.png").resize((65, 65)))
+        circle = PhotoImage(Image.open("./img/circle.png").resize((65, 65)))
         return (up, down, left, right), (rectangle, triangle, circle)
 
     def reset(self):
@@ -157,7 +161,7 @@ class GraphicDisplay(tk.Tk):
             self.is_moving = 0
 
     def draw_one_arrow(self, col, row, policy):
-        if col == 2 and row == 2:
+        if col == 5 and row == 5: #
             return
 
         if policy[0] > 0:  # up
@@ -214,9 +218,13 @@ class Env:
         self.height = HEIGHT
         self.reward = [[0] * WIDTH for _ in range(HEIGHT)]
         self.possible_actions = POSSIBLE_ACTIONS
-        self.reward[2][2] = 1  # reward 1 for circle
+        self.reward[5][5] = 1  # reward 1 for circle #
         self.reward[1][2] = -1  # reward -1 for triangle
         self.reward[2][1] = -1  # reward -1 for triangle
+        self.reward[1][7] = -1  # reward -1 for triangle
+        self.reward[3][6] = -1  # reward -1 for triangle
+        self.reward[4][3] = -1  # reward -1 for triangle
+
         self.all_state = []
 
         for x in range(WIDTH):
