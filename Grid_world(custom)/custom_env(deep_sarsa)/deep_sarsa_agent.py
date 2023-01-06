@@ -19,7 +19,7 @@ class DeepSARSAgent:
         self.action_space = [0, 1, 2, 3, 4]
         # get size of state and action
         self.action_size = len(self.action_space)
-        self.state_size = 15
+        self.state_size = 39
         self.discount_factor = 0.99
         self.learning_rate = 0.001
 
@@ -36,8 +36,8 @@ class DeepSARSAgent:
     # state is input and Q Value of each action is output of network
     def build_model(self):
         model = Sequential()
-        model.add(Dense(30, input_dim=self.state_size, activation='relu'))
-        model.add(Dense(30, activation='relu'))
+        model.add(Dense(60, input_dim=self.state_size, activation='relu'))
+        model.add(Dense(60, activation='relu'))
         model.add(Dense(self.action_size, activation='linear'))
         model.summary()
         model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
@@ -86,7 +86,7 @@ if __name__ == "__main__":
         done = False
         score = 0
         state = env.reset()
-        state = np.reshape(state, [1, 15])
+        state = np.reshape(state, [1, 39])
 
         while not done:
             # fresh env
@@ -95,7 +95,7 @@ if __name__ == "__main__":
             # get action for the current state and go one step in environment
             action = agent.get_action(state)
             next_state, reward, done = env.step(action)
-            next_state = np.reshape(next_state, [1, 15])
+            next_state = np.reshape(next_state, [1, 39])
             next_action = agent.get_action(next_state)
             agent.train_model(state, action, reward, next_state, next_action,
                               done)
