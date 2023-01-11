@@ -24,15 +24,15 @@ class Env(tk.Tk):
         self.rewards = []
         self.goal = []
         # obstacle
-        self.set_reward([0, 3], -1)
-        self.set_reward([1, 0], -1)
-        self.set_reward([2, 6], -1)
-        self.set_reward([3, 4], -1)
+        self.set_reward([3, 0], -1)
+        self.set_reward([0, 1], -1)
+        self.set_reward([6, 2], -1)
+        self.set_reward([4, 3], -1)
         self.set_reward([5, 5], -1)
-        self.set_reward([4, 0], -1)
-        self.set_reward([9, 1], -1)
+        self.set_reward([0, 4], -1)
+        self.set_reward([1, 9], -1)
         self.set_reward([8, 1], -1)
-        self.set_reward([7, 7], -1)
+        self.set_reward([2, 0], -1)
 
         # #goal
         self.set_reward([9, 9], 1)
@@ -77,15 +77,15 @@ class Env(tk.Tk):
 
         self.rewards.clear()
         self.goal.clear()
-        self.set_reward([0, 3], -1)
-        self.set_reward([1, 0], -1)
-        self.set_reward([2, 6], -1)
-        self.set_reward([3, 4], -1)
+        self.set_reward([3, 0], -1)
+        self.set_reward([0, 1], -1)
+        self.set_reward([6, 2], -1)
+        self.set_reward([4, 3], -1)
         self.set_reward([5, 5], -1)
-        self.set_reward([4, 0], -1)
-        self.set_reward([9, 1], -1)
+        self.set_reward([0, 4], -1)
+        self.set_reward([1, 9], -1)
         self.set_reward([8, 1], -1)
-        self.set_reward([7, 7], -1)
+        self.set_reward([2, 0], -1)
 
         # #goal
         self.set_reward([9, 9], 1)
@@ -150,8 +150,8 @@ class Env(tk.Tk):
         self.counter += 1
         self.render()
 
-        if self.counter % 2 == 1:
-            self.rewards = self.move_rewards()
+        #if self.counter % 2 == 1:
+        #    self.rewards = self.move_rewards()
 
         next_coords = self.move(self.rectangle, action)
         check = self.check_if_reward(self.coords_to_state(next_coords))
@@ -172,8 +172,8 @@ class Env(tk.Tk):
 
         states = list()
 
-        # locations.append(agent_x)
-        # locations.append(agent_y)
+        #locations.append(agent_x)
+        #locations.append(agent_y)
 
         for reward in self.rewards:
             reward_location = reward['state']
