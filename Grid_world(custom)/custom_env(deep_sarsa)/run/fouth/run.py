@@ -31,9 +31,7 @@ class DeepSARSAgent:
     def build_model(self):
         model = Sequential()
         model.add(Dense(60, input_dim=self.state_size, activation='relu'))
-        model.add(Dropout(0.3))
         model.add(Dense(60, activation='relu'))
-        model.add(Dropout(0.3))
         model.add(Dense(self.action_size, activation='linear'))
         model.summary()
         model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
