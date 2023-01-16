@@ -25,7 +25,7 @@ class DeepSARSAgent:
         
         if self.load_model:
             self.epsilon = 0.05
-            self.model.load_weights('./save_model/test_weight.h5')
+            self.model.load_weights('./save_model/Train(epoch 1000).h5')
             
     
     def build_model(self):
