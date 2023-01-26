@@ -2,7 +2,7 @@ import copy
 import pylab
 import random
 import numpy as np
-from environment import Env
+from environment_val import Env
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.models import Sequential
@@ -24,17 +24,17 @@ class DeepSARSAgent:
         self.model = self.build_model()
         
         if self.load_model:
-            self.epsilon = 0.05
-            self.model.load_weights('./save_model/deep_sarsa.h5')
+            self.epsilon = 0.00
+            self.model.load_weights('./save_model/deep_sarsa_custom.h5')
             
     
     def build_model(self):
         model = Sequential()
         model.add(Dense(60, input_dim=self.state_size, activation='relu'))
         model.add(Dense(60, activation='relu'))
-        model.add(Dense(self.action_size, activation='linear'))
+        model.add(Dense(self.action_size, activation='softmax'))
         model.summary()
-        model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
+        model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=self.learning_rate))
         return model
     
     def get_action(self,state):

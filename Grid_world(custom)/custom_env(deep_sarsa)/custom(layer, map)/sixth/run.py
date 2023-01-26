@@ -2,8 +2,8 @@ import copy
 import pylab
 import random
 import numpy as np
-from environment import Env
-from keras.layers import Dense
+from environment_val import Env
+from keras.layers import Dense, Dropout
 from keras.optimizers import Adam
 from keras.models import Sequential
 
@@ -24,15 +24,18 @@ class DeepSARSAgent:
         self.model = self.build_model()
         
         if self.load_model:
-            self.epsilon = 0.05
-            self.model.load_weights('./save_model/deep_sarsa.h5')
+            self.epsilon = 0.0
+            self.model.load_weights('./save_model/deep_sarsa(output neuron 40).h5')
             
     
     def build_model(self):
         model = Sequential()
-        model.add(Dense(60, input_dim=self.state_size, activation='relu'))
-        model.add(Dense(60, activation='relu'))
+        model.add(Dense(40, input_dim=self.state_size, activation='relu'))
+        #model.add(Dropout(.3))
+        model.add(Dense(40, activation='relu'))
+        #model.add(Dropout(.3))
         model.add(Dense(self.action_size, activation='linear'))
+        #model.add(Dropout(.3))
         model.summary()
         model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
         return model
