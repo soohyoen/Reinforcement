@@ -19,7 +19,7 @@ from keras.layers import Dropout
 from keras import backend as K
 import time
 
-EPISODES = 11900
+EPISODES = 6700
 
 
 # this is DeepSARSA Agent for the GridWorld
@@ -100,7 +100,7 @@ if __name__ == "__main__":
     for e in range(EPISODES):
         done = False
         score = 0
-        if e % 1000 == 0:
+        if e % 650 == 0:
             x += 1
             if x == 1:
                env = Env1()
@@ -169,7 +169,7 @@ if __name__ == "__main__":
                 local_steps.append(local_step)
                 pylab.plot(episodes, scores, 'b', label='scores')
                 pylab.plot(episodes, local_steps, 'r', label = 'local_step')
-                pylab.savefig("./save_graph/result.png")
+                pylab.savefig("./save_graph/result2(epoch650).png")
                 print("episode:", e, "  score:", score, "global_step",
                       global_step, " epsilon:", agent.epsilon, "local_step:", local_step )
                 local_step = 0
