@@ -2,13 +2,24 @@ import copy
 import pylab
 import random
 import numpy as np
-from environment import Env
+from environment1 import Env1
+from environment2 import Env2
+from environment3 import Env3
+from environment4 import Env4
+from environment5 import Env5
+from environment6 import Env6
+from environment7 import Env7
+from environment8 import Env8
+from environment9 import Env9
+from environment10 import Env10
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.models import Sequential
 from keras.layers import Dropout
+from keras import backend as K
+import time
 
-EPISODES = 1000
+EPISODES = 11900
 
 
 # this is DeepSARSA Agent for the GridWorld
@@ -39,9 +50,9 @@ class DeepSARSAgent:
         model = Sequential()
         model.add(Dense(40, input_dim=self.state_size, activation='relu'))
         model.add(Dense(40, activation='relu'))
-        model.add(Dense(self.action_size, activation='softmax'))
+        model.add(Dense(self.action_size, activation='linear'))
         model.summary()
-        model.compile(loss='categorical_crossentropy', optimizer=Adam(lr=self.learning_rate))
+        model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
         return model
 
     # get action from model using epsilon-greedy policy
@@ -75,24 +86,70 @@ class DeepSARSAgent:
         # and do the model fit!
         self.model.fit(state, target, epochs=1, verbose=0)
 
-
+    def epsilon_init(self):
+        self.epsilon = 1.
+       
 if __name__ == "__main__":
-    env = Env()
+
+    
     agent = DeepSARSAgent()
-
     global_step = 0
-    scores, episodes = [], []
-
+    local_step = 0
+    scores, episodes, local_steps = [], [], []
+    x = 0
     for e in range(EPISODES):
         done = False
         score = 0
+        if e % 1000 == 0:
+            x += 1
+            if x == 1:
+               env = Env1()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 2:
+               env = Env2()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 3:
+               env = Env3()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 4:
+               env = Env4()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 5:
+               env = Env5()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 6:
+               env = Env6()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 7:
+               env = Env7()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 8:
+               env = Env8()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 9:
+               env = Env9()
+               agent.epsilon_init()
+               local_step = 0
+            elif x == 10:
+               env = Env10()
+               agent.epsilon_init()
+               local_step = 0
+
         state = env.reset()
         state = np.reshape(state, [1, 39])
-
+  
         while not done:
             # fresh env
             global_step += 1
-
+            local_step += 1
             # get action for the current state and go one step in environment
             action = agent.get_action(state)
             next_state, reward, done = env.step(action)
@@ -109,10 +166,18 @@ if __name__ == "__main__":
             if done:
                 scores.append(score)
                 episodes.append(e)
-                pylab.plot(episodes, scores, 'b')
-                pylab.savefig("./save_graph/deep_sarsa_.png")
+                local_steps.append(local_step)
+                pylab.plot(episodes, scores, 'b', label='scores')
+                pylab.plot(episodes, local_steps, 'r', label = 'local_step')
+                pylab.savefig("./save_graph/result.png")
                 print("episode:", e, "  score:", score, "global_step",
-                      global_step, "  epsilon:", agent.epsilon)
+                      global_step, " epsilon:", agent.epsilon, "local_step:", local_step )
+                local_step = 0
+
+            if local_step >= 500:
+
+               done = True
+               local_step = 0
 
         if e % 100 == 0:
             agent.model.save_weights("./save_model/deep_sarsa.h5")

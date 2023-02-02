@@ -21,6 +21,7 @@ class Env1(tk.Tk):
         self.shapes = self.load_images()
         self.canvas = self._build_canvas()
         self.counter = 0
+        self.local_step = 0
         self.rewards = []
         self.goal = []
         # obstacle
@@ -149,7 +150,7 @@ class Env1(tk.Tk):
     def step(self, action):
         self.counter += 1
         self.render()
-
+        self.local_step += 1
         #if self.counter % 2 == 1:
         #    self.rewards = self.move_rewards()
 
@@ -157,11 +158,8 @@ class Env1(tk.Tk):
         check = self.check_if_reward(self.coords_to_state(next_coords))
         done = check['if_goal']
         reward = check['rewards']
-
         self.canvas.tag_raise(self.rectangle)
-
         s_ = self.get_state()
-
         return s_, reward, done
 
     def get_state(self):
@@ -251,3 +249,4 @@ class Env1(tk.Tk):
     def render(self):
         time.sleep(0.07)
         self.update()
+

@@ -11,9 +11,9 @@ WIDTH = 10  # grid width
 np.random.seed(1)
 
 
-class Env1(tk.Tk):
+class Env3(tk.Tk):
     def __init__(self):
-        super(Env1, self).__init__()
+        super(Env3, self).__init__()
         self.action_space = ['u', 'd', 'l', 'r']
         self.action_size = len(self.action_space)
         self.title('DeepSARSA')
@@ -24,15 +24,15 @@ class Env1(tk.Tk):
         self.rewards = []
         self.goal = []
         # obstacle
-        self.set_reward([3, 0], -1)
-        self.set_reward([0, 1], -1)
-        self.set_reward([6, 2], -1)
+        self.set_reward([8, 7], -1)
+        self.set_reward([5, 1], -1)
+        self.set_reward([6, 4], -1)
+        self.set_reward([4, 1], -1)
+        self.set_reward([6, 3], -1)
+        self.set_reward([4, 2], -1)
+        self.set_reward([7, 3], -1)
         self.set_reward([4, 3], -1)
-        self.set_reward([5, 5], -1)
-        self.set_reward([0, 4], -1)
-        self.set_reward([1, 9], -1)
-        self.set_reward([8, 1], -1)
-        self.set_reward([2, 0], -1)
+        self.set_reward([2, 7], -1)
 
         # #goal
         self.set_reward([9, 9], 1)
@@ -77,16 +77,15 @@ class Env1(tk.Tk):
 
         self.rewards.clear()
         self.goal.clear()
-        self.set_reward([3, 0], -1)
-        self.set_reward([0, 1], -1)
-        self.set_reward([6, 2], -1)
+        self.set_reward([8, 7], -1)
+        self.set_reward([5, 1], -1)
+        self.set_reward([6, 4], -1)
+        self.set_reward([4, 1], -1)
+        self.set_reward([6, 3], -1)
+        self.set_reward([4, 2], -1)
+        self.set_reward([7, 3], -1)
         self.set_reward([4, 3], -1)
-        self.set_reward([5, 5], -1)
-        self.set_reward([0, 4], -1)
-        self.set_reward([1, 9], -1)
-        self.set_reward([8, 1], -1)
-        self.set_reward([2, 0], -1)
-
+        self.set_reward([2, 7], -1)
         # #goal
         self.set_reward([9, 9], 1)
 

@@ -25,7 +25,7 @@ class DeepSARSAgent:
         
         if self.load_model:
             self.epsilon = 0.0
-            self.model.load_weights('./save_model/deep_sarsa(output neuron 40).h5')
+            self.model.load_weights('./save_model/deep_sarsa.h5')
             
     
     def build_model(self):
