@@ -2,7 +2,7 @@ import copy
 import pylab
 import random
 import numpy as np
-from environment1 import Env1
+from environment2 import Env2
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.models import Sequential
@@ -17,7 +17,7 @@ EPISODES = 610
 # Utilize Neural Network as q function approximator
 class DeepSARSAgent:
     def __init__(self):
-        self.load_model = False
+        self.load_model = True
         # actions which agent can do
         self.action_space = [0, 1, 2, 3, 4]
         # get size of state and action
@@ -79,7 +79,7 @@ class DeepSARSAgent:
        
 if __name__ == "__main__":
 
-    env = Env()
+    env = Env2()
     agent = DeepSARSAgent()
 
     global_step = 0
@@ -116,7 +116,7 @@ if __name__ == "__main__":
                 local_steps.append(local_step)
                 pylab.plot(episodes, scores, 'b', label='scores')
                 pylab.plot(episodes, local_steps, 'r', label = 'local_step')
-                pylab.savefig("./save_graph/env case 10/1.png")
+                pylab.savefig("./save_graph/env case 10/2.png")
                 print("episode:", e, "  score:", score, "global_step",
                       global_step, " epsilon:", agent.epsilon, "local_step:", local_step )
                 local_step = 0

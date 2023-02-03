@@ -1,0 +1,14 @@
+#!/bin/bash
+
+python deep_sarsa_agent.py
+python deep_sarsa_agent2.py
+python deep_sarsa_agent3.py
+python deep_sarsa_agent4.py
+python deep_sarsa_agent5.py
+python deep_sarsa_agent6.py
+python deep_sarsa_agent7.py
+python deep_sarsa_agent8.py
+python deep_sarsa_agent9.py
+python deep_sarsa_agent10.py
+
+exit 0

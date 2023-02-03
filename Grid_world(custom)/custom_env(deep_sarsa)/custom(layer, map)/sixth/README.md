@@ -20,3 +20,5 @@ Dense: 출력 뉴런의 수 60-> 40
 -> 한 Env당 Local step이 500넘어가면 done
 -> local step으로 규제해도 500이 넘어가는 값이 학습이 되기때문에 결과적으로 이상해짐..
 -> epoch를 650으로 변경
+-> 650선이 과적합 안나고 괜찮은것같음.. 근데 _tkinter.TclError: image "pyimage4" doesn't exist 에러 발생
+-> tkinter를 초기화하기위해 호출되며 한번만 호출 가능함.
