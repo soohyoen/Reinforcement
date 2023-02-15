@@ -22,3 +22,8 @@ Dense: 출력 뉴런의 수 60-> 40
 -> epoch를 650으로 변경
 -> 650선이 과적합 안나고 괜찮은것같음.. 근데 _tkinter.TclError: image "pyimage4" doesn't exist 에러 발생
 -> tkinter를 초기화하기위해 호출되며 한번만 호출 가능함.
+
+-> 결과적으로 학습시킨 weghit를 돌렸을 때, 학습이 안된것처럼 나옴.
+-> 그래서 parameter값을 늘려보고(Dense 추가) 일단은 env 10개로 진행
+-> global_step이 다른 env에도 적용되는듯..? 왜그런거지..
+-> local_step, global_step 말고 early_stop 기능을 추가시켜야 할듯

@@ -2,7 +2,7 @@ import copy
 import pylab
 import random
 import numpy as np
-from environment_val import Env
+from environment7 import Env7
 from keras.layers import Dense, Dropout
 from keras.optimizers import Adam
 from keras.models import Sequential
@@ -25,7 +25,7 @@ class DeepSARSAgent:
         
         if self.load_model:
             self.epsilon = 0.0
-            self.model.load_weights('./save_model/deep_sarsa.h5')
+            self.model.load_weights('./save_model/deep_sarsa(output neuron 40).h5')
             
     
     def build_model(self):
@@ -67,7 +67,7 @@ class DeepSARSAgent:
             self.model.fit(state, target, epochs=1, verbose=0)
 
 if __name__ == "__main__":
-    env = Env()
+    env = Env7()
     agent = DeepSARSAgent()
   
     global_step = 0

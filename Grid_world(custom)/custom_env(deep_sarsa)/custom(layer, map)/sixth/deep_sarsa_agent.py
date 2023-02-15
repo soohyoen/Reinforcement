@@ -9,6 +9,7 @@ from keras.models import Sequential
 from keras.layers import Dropout
 from keras import backend as K
 import time
+from keras.callbacks import EarlyStopping
 
 EPISODES = 610
 
@@ -41,9 +42,13 @@ class DeepSARSAgent:
         model = Sequential()
         model.add(Dense(40, input_dim=self.state_size, activation='relu'))
         model.add(Dense(40, activation='relu'))
-        model.add(Dense(self.action_size, activation='linear'))
+        model.add(Dense(30, activation='relu'))
+        model.add(Dense(20, activation ='relu'))
+        model.add(Dense(10, activation ='relu'))
+        model.add(Dense(self.action_size, activation = 'linear'))
         model.summary()
         model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
+         
         return model
 
     # get action from model using epsilon-greedy policy
@@ -79,13 +84,15 @@ class DeepSARSAgent:
        
 if __name__ == "__main__":
 
-    env = Env()
+    env = Env1()
     agent = DeepSARSAgent()
 
     global_step = 0
     local_step = 0
     scores, episodes, local_steps = [], [], []
     x = 0
+    not_training = 0
+    yes_training = 0
 
     for e in range(EPISODES):
         done = False
@@ -118,10 +125,10 @@ if __name__ == "__main__":
                 pylab.plot(episodes, local_steps, 'r', label = 'local_step')
                 pylab.savefig("./save_graph/env case 10/1.png")
                 print("episode:", e, "  score:", score, "global_step",
-                      global_step, " epsilon:", agent.epsilon, "local_step:", local_step )
+                      global_step, " epsilon:", agent.epsilon)
                 local_step = 0
 
-            if local_step >= 100:
+            if local_step >= 200:
                done = True
                local_step = 0
 
