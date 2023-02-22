@@ -2,14 +2,13 @@ import copy
 import pylab
 import random
 import numpy as np
-from environment1 import Env1
+from environment9 import Env9
 from keras.layers import Dense
 from keras.optimizers import Adam
 from keras.models import Sequential
 from keras.layers import Dropout
 from keras import backend as K
 import time
-from keras.callbacks import EarlyStopping
 
 EPISODES = 610
 
@@ -18,7 +17,7 @@ EPISODES = 610
 # Utilize Neural Network as q function approximator
 class DeepSARSAgent:
     def __init__(self):
-        self.load_model = False
+        self.load_model = True
         # actions which agent can do
         self.action_space = [0, 1, 2, 3, 4]
         # get size of state and action
@@ -48,7 +47,6 @@ class DeepSARSAgent:
         model.add(Dense(self.action_size, activation = 'linear'))
         model.summary()
         model.compile(loss='mse', optimizer=Adam(lr=self.learning_rate))
-         
         return model
 
     # get action from model using epsilon-greedy policy
@@ -84,15 +82,13 @@ class DeepSARSAgent:
        
 if __name__ == "__main__":
 
-    env = Env1()
+    env = Env9()
     agent = DeepSARSAgent()
 
     global_step = 0
     local_step = 0
     scores, episodes, local_steps = [], [], []
     x = 0
-    not_training = 0
-    yes_training = 0
 
     for e in range(EPISODES):
         done = False
@@ -123,14 +119,14 @@ if __name__ == "__main__":
                 local_steps.append(local_step)
                 pylab.plot(episodes, scores, 'b', label='scores')
                 pylab.plot(episodes, local_steps, 'r', label = 'local_step')
-                pylab.savefig("./save_graph/env case 10/1.png")
+                pylab.savefig("./save_graph/env case 10/9.png")
                 print("episode:", e, "  score:", score, "global_step",
-                      global_step, " epsilon:", agent.epsilon)
+                      global_step, " epsilon:", agent.epsilon )
                 local_step = 0
 
-            #if local_step >= 200:
-               #done = True
-               #local_step = 0
+            if local_step >= 50 and e >= 200:
+               done = True
+               local_step = 0
 
         if e % 100 == 0:
             agent.model.save_weights("./save_model/deep_sarsa.h5")
